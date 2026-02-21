@@ -1,9 +1,12 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { Activity, AlertTriangle, Clock, TrendingUp } from 'lucide-react';
+import { Activity, AlertTriangle, Clock, TrendingUp, Database } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import AppLayout from '@/components/AppLayout';
 import { getDashboardMetrics } from '@/lib/store';
+import { loadSampleData } from '@/lib/seed-data';
+import { toast } from 'sonner';
 
 function MetricCard({ label, value, sub, icon: Icon }: { label: string; value: string | number; sub?: string; icon: React.ElementType }) {
   return (
@@ -25,9 +28,15 @@ function MetricCard({ label, value, sub, icon: Icon }: { label: string; value: s
 }
 
 export default function DashboardPage() {
-  const metrics = useMemo(() => getDashboardMetrics(), []);
-
+  const [refresh, setRefresh] = useState(0);
+  const metrics = useMemo(() => getDashboardMetrics(), [refresh]);
   const hasData = metrics.totalRuns > 0;
+
+  const handleLoadSample = () => {
+    const count = loadSampleData();
+    setRefresh(r => r + 1);
+    toast.success(`Loaded ${count} sample agent runs across all severity levels`);
+  };
 
   return (
     <AppLayout>
@@ -84,7 +93,11 @@ export default function DashboardPage() {
           <Card>
             <CardContent className="p-12 text-center">
               <Activity className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
-              <p className="text-sm text-muted-foreground">No runs yet. Execute some agent tasks to see metrics.</p>
+              <p className="text-sm text-muted-foreground mb-4">No runs yet. Execute some agent tasks or load sample data to see metrics.</p>
+              <Button onClick={handleLoadSample} variant="outline" className="gap-2">
+                <Database className="h-4 w-4" />
+                Load Sample Data
+              </Button>
             </CardContent>
           </Card>
         )}
