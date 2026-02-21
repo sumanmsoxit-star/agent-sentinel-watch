@@ -1,11 +1,12 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Activity, Terminal, BarChart3, Database, LogOut } from 'lucide-react';
+import { Activity, Terminal, BarChart3, Database, BookOpen, LogOut } from 'lucide-react';
 import { getUser, setUser } from '@/lib/store';
 
 const navItems = [
   { path: '/agent', label: 'Agent', icon: Terminal },
   { path: '/dashboard', label: 'Dashboard', icon: BarChart3 },
   { path: '/memory', label: 'Memory', icon: Database },
+  { path: '/docs', label: 'Docs', icon: BookOpen },
 ];
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {

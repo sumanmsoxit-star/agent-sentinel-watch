@@ -115,3 +115,129 @@
     text-shadow: 0 0 10px hsl(var(--glow-primary) / 0.5);
   }
 }
+
+/* ===== DOCUMENTATION PAGE STYLES ===== */
+.docs-page {
+  font-family: 'Georgia', 'Times New Roman', Times, serif;
+  color: #1a1a1a;
+  background: #ffffff;
+  max-width: 210mm;
+  margin: 0 auto;
+  padding: 2rem;
+  line-height: 1.8;
+  font-size: 14px;
+}
+.docs-page p { text-align: justify; margin-bottom: 0.5rem; }
+.docs-chapter { page-break-before: always; margin-bottom: 3rem; padding-top: 1rem; }
+.docs-chapter:first-of-type { page-break-before: avoid; }
+.title-page { page-break-before: avoid; }
+.docs-h2 { font-size: 1.4rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid #333; padding-bottom: 0.4rem; margin-bottom: 1.5rem; }
+.docs-h3 { font-size: 1.1rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+.docs-h4 { font-size: 1rem; font-weight: 600; margin-top: 1.2rem; margin-bottom: 0.5rem; }
+.docs-ol { list-style: decimal; padding-left: 2rem; margin: 0.8rem 0; }
+.docs-ol li { margin-bottom: 0.4rem; }
+.docs-ul { list-style: disc; padding-left: 2rem; margin: 0.8rem 0; }
+.docs-ul li { margin-bottom: 0.4rem; }
+
+.docs-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 13px; }
+.docs-table th, .docs-table td { border: 1px solid #555; padding: 6px 10px; text-align: left; }
+.docs-table th { background: #f0f0f0; font-weight: 700; }
+.docs-table td { background: #fafafa; }
+
+.docs-code {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: pre;
+  display: block;
+  margin: 0.8rem 0;
+  color: #1a1a1a;
+}
+
+.docs-formula {
+  text-align: center;
+  font-size: 1.1rem;
+  padding: 1rem;
+  background: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.docs-diagram {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 1.5rem;
+  background: #fafafa;
+}
+.docs-box {
+  border: 2px solid #333;
+  border-radius: 6px;
+  padding: 0.8rem 1rem;
+  text-align: center;
+  background: #fff;
+}
+.docs-box-sm {
+  border: 1.5px solid #555;
+  border-radius: 4px;
+  padding: 0.4rem 1.2rem;
+  text-align: center;
+  background: #fff;
+  font-size: 13px;
+}
+.docs-box-xs {
+  border: 1px solid #888;
+  border-radius: 3px;
+  padding: 0.3rem 0.8rem;
+  text-align: center;
+  background: #fff;
+  font-size: 11px;
+}
+.docs-arrow { font-size: 12px; color: #555; text-align: center; }
+
+.docs-screenshot-placeholder {
+  border: 2px dashed #aaa;
+  border-radius: 4px;
+  padding: 2rem;
+  background: #f9f9f9;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toc-link {
+  color: #1a1a1a;
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 2;
+}
+.toc-link:hover { text-decoration: underline; }
+
+.references-list li { margin-bottom: 0.8rem; font-size: 13px; }
+
+.severity-row-none td:first-child { color: #22c55e; font-weight: 600; }
+.severity-row-minor td:first-child { color: #eab308; font-weight: 600; }
+.severity-row-major td:first-child { color: #f97316; font-weight: 600; }
+.severity-row-critical td:first-child { color: #ef4444; font-weight: 600; }
+
+/* ===== PRINT STYLES ===== */
+@media print {
+  .no-print, header, nav, .no-print * { display: none !important; }
+  body { background: white !important; color: black !important; font-size: 12pt; }
+  .docs-page { max-width: 100%; padding: 0; margin: 0; box-shadow: none; }
+  .docs-chapter { page-break-before: always; }
+  .docs-chapter:first-of-type, .title-page { page-break-before: avoid; }
+  .docs-table th { background: #e0e0e0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .docs-table td { background: white !important; }
+  .docs-code { background: #f5f5f5 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; font-size: 10pt; }
+  .docs-diagram { background: white !important; }
+  .docs-formula { background: #f5f5f5 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  a { color: black !important; text-decoration: none !important; }
+  main { padding: 0 !important; }
+  .container { max-width: 100% !important; padding: 0 !important; }
+}
