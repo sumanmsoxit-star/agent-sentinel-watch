@@ -1,4 +1,5 @@
 import type { TraceStep, IncidentScore, AgentResult, MemoryEntry, Severity, FailureToggles } from '@/types/agent';
+import { supabase } from '@/integrations/supabase/client';
 
 function generateSessionId(): string {
   return 'sess_' + Math.random().toString(36).substring(2, 10);
@@ -21,25 +22,32 @@ function classifySeverity(score: number): Severity {
 
 function computeIncidentScore(toolFailures: number, excessSteps: number, memViolations: number): IncidentScore {
   const score = (10 * toolFailures) + (15 * excessSteps) + (20 * memViolations);
-  return {
-    score,
-    severity: classifySeverity(score),
-    toolFailures,
-    excessReasoningSteps: excessSteps,
-    memoryViolations: memViolations,
-  };
+  return { score, severity: classifySeverity(score), toolFailures, excessReasoningSteps: excessSteps, memoryViolations: memViolations };
 }
 
-// Simple calculator tool
 function executeTool(expression: string): { result: string; success: boolean } {
   try {
-    // Safe math evaluation
     const sanitized = expression.replace(/[^0-9+\-*/().%\s]/g, '');
     if (!sanitized.trim()) return { result: 'No valid expression found', success: true };
     const result = Function(`"use strict"; return (${sanitized})`)();
     return { result: String(result), success: true };
   } catch {
     return { result: 'Calculation error', success: false };
+  }
+}
+
+async function callAI(prompt: string): Promise<{ result: string; success: boolean; latency: number }> {
+  const start = Date.now();
+  try {
+    const { data, error } = await supabase.functions.invoke('agent-ai', {
+      body: { prompt },
+    });
+    const latency = Date.now() - start;
+    if (error) return { result: `AI Error: ${error.message}`, success: false, latency };
+    if (data?.error) return { result: data.error, success: false, latency };
+    return { result: data.result, success: true, latency };
+  } catch (e) {
+    return { result: `Network error: ${e instanceof Error ? e.message : 'unknown'}`, success: false, latency: Date.now() - start };
   }
 }
 
@@ -58,137 +66,77 @@ export async function runAgent(
 
   // Step 1: Parse Input
   const s1Start = now();
-  await delay(toggles.latencySpike ? 1500 : 200);
+  await delay(toggles.latencySpike ? 1500 : 100);
   stepCounter++;
-  trace.push({
-    stepId: stepCounter,
-    stepName: 'Parse User Input',
-    startTime: s1Start,
-    endTime: now(),
-    status: 'SUCCESS',
-    details: `Parsed prompt: "${prompt.substring(0, 50)}..."`,
-  });
+  trace.push({ stepId: stepCounter, stepName: 'Parse User Input', startTime: s1Start, endTime: now(), status: 'SUCCESS', details: `Parsed: "${prompt.substring(0, 60)}..."` });
 
-  // Step 2: Reasoning
+  // Step 2: AI Reasoning (real LLM call)
   const s2Start = now();
-  const reasoningSteps = toggles.reasoningLoop ? 5 : 1;
-  await delay(toggles.latencySpike ? 800 : 300);
-  stepCounter++;
+  let aiResult = '';
   if (toggles.reasoningLoop) {
-    excessSteps = 4; // 4 excess steps beyond the expected 1
-    trace.push({
-      stepId: stepCounter,
-      stepName: 'Agent Reasoning',
-      startTime: s2Start,
-      endTime: now(),
-      status: 'WARNING',
-      details: `Excessive reasoning detected: ${reasoningSteps} iterations`,
-    });
+    excessSteps = 4;
+    await delay(800);
+    stepCounter++;
+    trace.push({ stepId: stepCounter, stepName: 'AI Reasoning', startTime: s2Start, endTime: now(), status: 'WARNING', details: `Excessive reasoning: 5 iterations (simulated loop)` });
+    // Still call AI but note the loop
+    const ai = await callAI(prompt);
+    aiResult = ai.result;
+    stepCounter++;
+    trace.push({ stepId: stepCounter, stepName: 'AI Response', startTime: s2Start, endTime: now(), status: ai.success ? 'SUCCESS' : 'FAILURE', details: `LLM responded in ${ai.latency}ms` });
+    if (!ai.success) toolFailures++;
   } else {
-    trace.push({
-      stepId: stepCounter,
-      stepName: 'Agent Reasoning',
-      startTime: s2Start,
-      endTime: now(),
-      status: 'SUCCESS',
-      details: 'Reasoning completed in 1 iteration',
-    });
+    const ai = await callAI(prompt);
+    aiResult = ai.result;
+    stepCounter++;
+    trace.push({ stepId: stepCounter, stepName: 'AI Reasoning (LLM)', startTime: s2Start, endTime: now(), status: ai.success ? 'SUCCESS' : 'FAILURE', details: `LLM responded in ${ai.latency}ms` });
+    if (!ai.success) toolFailures++;
   }
 
   // Step 3: Tool Execution (Calculator)
   const s3Start = now();
-  await delay(toggles.latencySpike ? 1000 : 250);
+  await delay(toggles.latencySpike ? 1000 : 50);
   stepCounter++;
   const mathMatch = prompt.match(/[\d+\-*/().]+/);
   if (toggles.toolFailure) {
-    toolFailures = 1;
-    trace.push({
-      stepId: stepCounter,
-      stepName: 'Tool: Calculator',
-      startTime: s3Start,
-      endTime: now(),
-      status: 'FAILURE',
-      details: 'Tool execution failed: simulated failure',
-    });
+    toolFailures++;
+    trace.push({ stepId: stepCounter, stepName: 'Tool: Calculator', startTime: s3Start, endTime: now(), status: 'FAILURE', details: 'Simulated tool failure' });
+  } else if (mathMatch) {
+    const toolResult = executeTool(mathMatch[0]);
+    trace.push({ stepId: stepCounter, stepName: 'Tool: Calculator', startTime: s3Start, endTime: now(), status: toolResult.success ? 'SUCCESS' : 'FAILURE', details: `Calc result: ${toolResult.result}` });
+    if (!toolResult.success) toolFailures++;
   } else {
-    const toolResult = mathMatch ? executeTool(mathMatch[0]) : { result: 'No calculation needed', success: true };
-    trace.push({
-      stepId: stepCounter,
-      stepName: 'Tool: Calculator',
-      startTime: s3Start,
-      endTime: now(),
-      status: toolResult.success ? 'SUCCESS' : 'FAILURE',
-      details: `Result: ${toolResult.result}`,
-    });
-    if (!toolResult.success) toolFailures = 1;
+    trace.push({ stepId: stepCounter, stepName: 'Tool: Calculator', startTime: s3Start, endTime: now(), status: 'SUCCESS', details: 'No calculation needed' });
   }
 
   // Step 4: Memory Storage
   const s4Start = now();
-  await delay(150);
+  await delay(50);
   stepCounter++;
   if (toggles.memoryCorruption) {
     memViolations = 1;
-    trace.push({
-      stepId: stepCounter,
-      stepName: 'Memory Store',
-      startTime: s4Start,
-      endTime: now(),
-      status: 'FAILURE',
-      details: 'Memory integrity check failed: corruption detected',
-    });
+    trace.push({ stepId: stepCounter, stepName: 'Memory Store', startTime: s4Start, endTime: now(), status: 'FAILURE', details: 'Memory corruption detected' });
   } else {
-    trace.push({
-      stepId: stepCounter,
-      stepName: 'Memory Store',
-      startTime: s4Start,
-      endTime: now(),
-      status: 'SUCCESS',
-      details: 'Context stored successfully',
-    });
+    trace.push({ stepId: stepCounter, stepName: 'Memory Store', startTime: s4Start, endTime: now(), status: 'SUCCESS', details: 'Context stored' });
   }
 
-  // Step 5: Compute Incident Score
+  // Step 5: Incident Scoring
   const s5Start = now();
-  await delay(100);
+  await delay(30);
   stepCounter++;
   const incidentScore = computeIncidentScore(toolFailures, excessSteps, memViolations);
-  trace.push({
-    stepId: stepCounter,
-    stepName: 'Incident Scoring',
-    startTime: s5Start,
-    endTime: now(),
-    status: incidentScore.score > 0 ? 'WARNING' : 'SUCCESS',
-    details: `Score: ${incidentScore.score} | Severity: ${incidentScore.severity}`,
-  });
+  trace.push({ stepId: stepCounter, stepName: 'Incident Scoring', startTime: s5Start, endTime: now(), status: incidentScore.score > 0 ? 'WARNING' : 'SUCCESS', details: `Score: ${incidentScore.score} | ${incidentScore.severity}` });
 
   const totalLatency = Date.now() - executionStart;
 
-  // Generate response
-  let result = `Agent processed your query: "${prompt}".`;
-  if (mathMatch && !toggles.toolFailure) {
-    const calc = executeTool(mathMatch[0]);
-    result += ` Calculator result: ${calc.result}.`;
-  }
-  if (incidentScore.score > 0) {
-    result += ` [${incidentScore.severity} incident detected with score ${incidentScore.score}]`;
-  }
-
   const agentResult: AgentResult = {
-    sessionId: sid,
-    userPrompt: prompt,
-    result,
-    trace,
-    incidentScore,
-    totalLatency,
-    timestamp: now(),
+    sessionId: sid, userPrompt: prompt, result: aiResult, trace, incidentScore, totalLatency, timestamp: now(),
   };
 
   const memoryEntry: MemoryEntry = {
     sessionId: sid,
-    context: JSON.stringify({ prompt, result: result.substring(0, 100), trace: trace.length }),
+    context: JSON.stringify({ prompt, resultPreview: aiResult.substring(0, 100), traceSteps: trace.length }),
     integrityStatus: toggles.memoryCorruption ? 'Corrupted' : 'Valid',
-    memorySize: new Blob([JSON.stringify({ prompt, result })]).size,
+    memorySize: new Blob([JSON.stringify({ prompt, result: aiResult })]).size,
     timestamp: now(),
   };
 
