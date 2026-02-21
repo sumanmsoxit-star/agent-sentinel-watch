@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import AgentPage from "./pages/AgentPage";
 import DashboardPage from "./pages/DashboardPage";
 import MemoryPage from "./pages/MemoryPage";
+import DocsPage from "./pages/DocsPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ const App = () => (
           <Route path="/agent" element={<AgentPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/memory" element={<MemoryPage />} />
+          <Route path="/docs" element={<DocsPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
