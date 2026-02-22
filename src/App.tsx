@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import AgentPage from "./pages/AgentPage";
 import DashboardPage from "./pages/DashboardPage";
+import HistoryPage from "./pages/HistoryPage";
 import MemoryPage from "./pages/MemoryPage";
 import DocsPage from "./pages/DocsPage";
 import NotFound from "./pages/NotFound";
@@ -22,6 +23,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/agent" element={<AgentPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/history" element={<HistoryPage />} />
           <Route path="/memory" element={<MemoryPage />} />
           <Route path="/docs" element={<DocsPage />} />
           <Route path="*" element={<NotFound />} />
