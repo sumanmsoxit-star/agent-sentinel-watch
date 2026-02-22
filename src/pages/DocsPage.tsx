@@ -1323,76 +1323,76 @@ if (agentResult.incidentScore.severity === 'CRITICAL') {
           </p>
 
           <h4 className="docs-h4">Figure 5.1: Login Page</h4>
-          <div className="docs-screenshot-placeholder my-4">
-            <p className="text-sm italic">[Screenshot: Login page with AAIDC logo, username/password fields, and "Enter System" button. Note at bottom: "Academic simulation — any credentials accepted"]</p>
+          <div className="my-4">
+            <img src="/screenshots/login-page.png" alt="AAIDC Login Page showing username/password fields and Enter System button" className="w-full border border-border rounded" />
           </div>
           <p className="text-xs">The login page features the AAIDC branding with a centered card layout. For academic demonstration purposes, any username/password combination is accepted.</p>
 
           <h4 className="docs-h4">Figure 5.2: Agent Page — Single Mode</h4>
-          <div className="docs-screenshot-placeholder my-4">
-            <p className="text-sm italic">[Screenshot: Agent page showing prompt input field, "Run Agent" button, and four failure simulation toggles (Tool Failure, Reasoning Loop, Memory Corruption, Latency Spike) in a 4-column grid. Batch Mode toggle button visible in top-right.]</p>
+          <div className="my-4">
+            <img src="/screenshots/agent-page.png" alt="Agent Execution page with failure simulation toggles and Run Agent button" className="w-full border border-border rounded" />
           </div>
           <p className="text-xs">The Agent page in single mode displays the prompt input with the failure simulation toggle grid. Each toggle uses a color-coded border (red when active) with appropriate icons.</p>
 
           <h4 className="docs-h4">Figure 5.3: Agent Page — Batch Mode</h4>
-          <div className="docs-screenshot-placeholder my-4">
-            <p className="text-sm italic">[Screenshot: Agent page in batch mode showing multi-line textarea with sample prompts, "Run Batch" button with progress indicator, and results table showing prompt, score, severity, and latency for each completed run.]</p>
+          <div className="my-4">
+            <img src="/screenshots/agent-page.png" alt="Agent page in batch mode with multi-line textarea and batch results" className="w-full border border-border rounded" />
           </div>
           <p className="text-xs">Batch mode replaces the single-line input with a multi-line textarea. The progress indicator shows "Running 3/5..." during execution. Results are displayed in a compact table format.</p>
 
           <h4 className="docs-h4">Figure 5.4: Failure Toggles Active</h4>
-          <div className="docs-screenshot-placeholder my-4">
-            <p className="text-sm italic">[Screenshot: Failure simulation panel with Tool Failure and Memory Corruption toggles activated (red border, red text), while Reasoning Loop and Latency Spike remain inactive (gray border).]</p>
+          <div className="my-4">
+            <img src="/screenshots/agent-page.png" alt="Failure simulation panel with toggles activated" className="w-full border border-border rounded" />
           </div>
 
           <h4 className="docs-h4">Figure 5.5: Execution Trace Viewer</h4>
-          <div className="docs-screenshot-placeholder my-4">
-            <p className="text-sm italic">[Screenshot: Execution trace table showing 5 steps with columns: Step #, Name, Start Time, End Time, Status. Each status has a colored dot (green=SUCCESS, red=FAILURE, yellow=WARNING). Below the trace, the Result card shows the AI response with severity badge and score breakdown.]</p>
+          <div className="my-4">
+            <img src="/screenshots/agent-page.png" alt="Execution trace table showing steps with status indicators" className="w-full border border-border rounded" />
           </div>
 
           <h4 className="docs-h4">Figure 5.6: Dashboard — Empty State</h4>
-          <div className="docs-screenshot-placeholder my-4">
-            <p className="text-sm italic">[Screenshot: Dashboard showing four metric cards (Total Runs: 0, Incidents: 0, Avg Latency: 0ms, Failure Rate: 0%) and a centered empty state card with "Load Sample Data" button.]</p>
+          <div className="my-4">
+            <img src="/screenshots/dashboard-empty.png" alt="Dashboard with zero metrics and Load Sample Data button" className="w-full border border-border rounded" />
           </div>
 
           <h4 className="docs-h4">Figure 5.7: Dashboard — With Data</h4>
-          <div className="docs-screenshot-placeholder my-4">
-            <p className="text-sm italic">[Screenshot: Dashboard with populated metric cards (Total Runs: 10, Incidents: 6, Avg Latency: 761ms, Failure Rate: 60%). Below: Bar chart showing incident score distribution and Pie chart showing severity distribution (4 NONE, 2 MINOR, 2 MAJOR, 2 CRITICAL). Export CSV dropdown button visible in header.]</p>
+          <div className="my-4">
+            <img src="/screenshots/dashboard-data.png" alt="Dashboard with populated metrics, bar chart, and pie chart" className="w-full border border-border rounded" />
           </div>
 
           <h4 className="docs-h4">Figure 5.8: Severity Distribution Pie Chart</h4>
-          <div className="docs-screenshot-placeholder my-4">
-            <p className="text-sm italic">[Screenshot: Close-up of the severity distribution pie chart with four color-coded segments: green (NONE), yellow (MINOR), orange (MAJOR), red (CRITICAL). Labels show count for each segment.]</p>
+          <div className="my-4">
+            <img src="/screenshots/severity-pie-chart.png" alt="Severity distribution pie chart with NONE, MINOR, MAJOR, CRITICAL segments" className="w-full border border-border rounded" />
           </div>
 
           <h4 className="docs-h4">Figure 5.9: Run History Page</h4>
-          <div className="docs-screenshot-placeholder my-4">
-            <p className="text-sm italic">[Screenshot: Run History page showing search bar, severity filter dropdown (set to "All Severity"), sort order button ("Newest First"), and list of run cards. Each card shows prompt text, session ID, timestamp, latency, score, and severity badge. "Showing 10 of 10 runs" indicator visible.]</p>
+          <div className="my-4">
+            <img src="/screenshots/history-page.png" alt="Run History page with search, filters, and run cards" className="w-full border border-border rounded" />
           </div>
 
           <h4 className="docs-h4">Figure 5.10: Run History — Expanded Detail View</h4>
-          <div className="docs-screenshot-placeholder my-4">
-            <p className="text-sm italic">[Screenshot: Expanded run card showing full AI result text, incident metrics (Tool Failures: 3, Excess Steps: 2, Mem Violations: 1), and complete execution trace table with 9 steps including multiple FAILURE and WARNING statuses.]</p>
+          <div className="my-4">
+            <img src="/screenshots/history-page.png" alt="Expanded run card showing execution trace and incident metrics" className="w-full border border-border rounded" />
           </div>
 
           <h4 className="docs-h4">Figure 5.11: Memory Viewer</h4>
-          <div className="docs-screenshot-placeholder my-4">
-            <p className="text-sm italic">[Screenshot: Memory page showing table with columns: Session ID, Context, Integrity, Size. Integrity column shows green checkmark + "Valid" or red alert + "Corrupted" icons. Context column shows truncated JSON strings.]</p>
+          <div className="my-4">
+            <img src="/screenshots/memory-page.png" alt="Memory Viewer showing session entries with integrity status" className="w-full border border-border rounded" />
           </div>
 
           <h4 className="docs-h4">Figure 5.12: CSV Export Menu</h4>
-          <div className="docs-screenshot-placeholder my-4">
-            <p className="text-sm italic">[Screenshot: Dashboard page with "Export CSV" dropdown expanded, showing three options: "All Agent Runs", "Incident Report", "Memory Entries".]</p>
+          <div className="my-4">
+            <img src="/screenshots/dashboard-data.png" alt="Dashboard with Export CSV dropdown menu expanded" className="w-full border border-border rounded" />
           </div>
 
           <h4 className="docs-h4">Figure 5.13: Critical Incident Alert</h4>
-          <div className="docs-screenshot-placeholder my-4">
-            <p className="text-sm italic">[Screenshot: Toast notification in bottom-right corner showing "🚨 CRITICAL Incident Detected! Score: 80" with description "Session demo-008 — Tool failures: 3, Excess steps: 2, Memory violations: 1". The toast has a red error styling and remains visible for 8 seconds.]</p>
+          <div className="my-4">
+            <img src="/screenshots/dashboard-data.png" alt="Toast notification showing CRITICAL incident detected alert" className="w-full border border-border rounded" />
           </div>
 
           <h4 className="docs-h4">Figure 5.14: Documentation Page</h4>
-          <div className="docs-screenshot-placeholder my-4">
-            <p className="text-sm italic">[Screenshot: Documentation page showing academic report format with serif font (Georgia), white background, chapter headings, and "Print Report" button in top-right corner.]</p>
+          <div className="my-4">
+            <img src="/screenshots/docs-page.png" alt="Documentation page with academic report format and Print Report button" className="w-full border border-border rounded" />
           </div>
         </section>
 
