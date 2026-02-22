@@ -1,10 +1,11 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Activity, Terminal, BarChart3, Database, BookOpen, LogOut } from 'lucide-react';
+import { Activity, Terminal, BarChart3, Database, BookOpen, LogOut, History } from 'lucide-react';
 import { getUser, setUser } from '@/lib/store';
 
 const navItems = [
   { path: '/agent', label: 'Agent', icon: Terminal },
   { path: '/dashboard', label: 'Dashboard', icon: BarChart3 },
+  { path: '/history', label: 'History', icon: History },
   { path: '/memory', label: 'Memory', icon: Database },
   { path: '/docs', label: 'Docs', icon: BookOpen },
 ];
@@ -40,7 +41,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 }`}
               >
                 <item.icon className="h-3.5 w-3.5" />
-                {item.label}
+                <span className="hidden sm:inline">{item.label}</span>
               </Link>
             ))}
             {user && (
