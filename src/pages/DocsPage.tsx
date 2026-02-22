@@ -418,7 +418,7 @@ export default function DocsPage() {
               <div className="docs-arrow">↓ HTTPS (REST API)</div>
               <div className="docs-box w-96">
                 <div className="font-semibold mb-1">External AI Layer</div>
-                <div className="text-xs">Lovable AI Gateway → Google Gemini 3 Flash</div>
+                <div className="text-xs">SOXIT AI Gateway → Google Gemini 3 Flash</div>
                 <div className="text-xs mt-1">OpenAI-compatible /v1/chat/completions endpoint</div>
               </div>
             </div>
@@ -430,7 +430,7 @@ export default function DocsPage() {
             <div className="flex flex-col items-center gap-2">
               <div className="docs-box-sm">User Browser (Chrome/Firefox/Edge)</div>
               <div className="text-xs">↓ HTTPS</div>
-              <div className="docs-box-sm">CDN (Lovable Cloud Hosting)</div>
+              <div className="docs-box-sm">CDN (SOXIT Cloud Hosting)</div>
               <div className="text-xs">↓ Static assets (HTML, JS, CSS)</div>
               <div className="docs-box-sm">React SPA (Client-Side Rendering)</div>
               <div className="flex gap-8 mt-2 mb-2">
@@ -492,7 +492,7 @@ export default function DocsPage() {
               <tr><td>Notifications</td><td>Sonner</td><td>1.7</td><td>Toast notifications for alerts</td></tr>
               <tr><td>Backend Runtime</td><td>Deno (Edge Fn)</td><td>—</td><td>Serverless function execution</td></tr>
               <tr><td>AI Model</td><td>Gemini 3 Flash</td><td>Preview</td><td>LLM reasoning &amp; generation</td></tr>
-              <tr><td>AI Gateway</td><td>Lovable AI Gateway</td><td>v1</td><td>OpenAI-compatible API proxy</td></tr>
+              <tr><td>AI Gateway</td><td>SOXIT AI Gateway</td><td>v1</td><td>OpenAI-compatible API proxy</td></tr>
               <tr><td>Fonts</td><td>Inter + JetBrains Mono</td><td>—</td><td>UI and monospace code display</td></tr>
             </tbody>
           </table>
@@ -1123,14 +1123,14 @@ score = (10 × toolFailures) + (15 × excessSteps) + (20 × memViolations)
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   const { prompt } = await req.json();
-  const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+  const SOXIT_API_KEY = Deno.env.get("SOXIT_API_KEY");
 
   const response = await fetch(
-    "https://ai.gateway.lovable.dev/v1/chat/completions",
+    "https://ai.gateway.soxit.dev/v1/chat/completions",
     {
       method: "POST",
       headers: {
-        Authorization: \`Bearer \${LOVABLE_API_KEY}\`,
+        Authorization: \`Bearer \${SOXIT_API_KEY}\`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -1825,15 +1825,15 @@ serve(async (req) => {
 
   try {
     const { prompt } = await req.json();
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
+    const SOXIT_API_KEY = Deno.env.get("SOXIT_API_KEY");
+    if (!SOXIT_API_KEY) throw new Error("SOXIT_API_KEY is not configured");
 
     const response = await fetch(
-      "https://ai.gateway.lovable.dev/v1/chat/completions",
+      "https://ai.gateway.soxit.dev/v1/chat/completions",
       {
         method: "POST",
         headers: {
-          Authorization: \`Bearer \${LOVABLE_API_KEY}\`,
+          Authorization: \`Bearer \${SOXIT_API_KEY}\`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -1978,7 +1978,7 @@ bun dev
             <tbody>
               <tr><td>VITE_SUPABASE_URL</td><td>Backend service URL</td><td>Yes (auto-configured)</td></tr>
               <tr><td>VITE_SUPABASE_PUBLISHABLE_KEY</td><td>Client authentication key</td><td>Yes (auto-configured)</td></tr>
-              <tr><td>LOVABLE_API_KEY</td><td>AI Gateway access (edge function)</td><td>Yes (server-side only)</td></tr>
+              <tr><td>SOXIT_API_KEY</td><td>AI Gateway access (edge function)</td><td>Yes (server-side only)</td></tr>
             </tbody>
           </table>
 

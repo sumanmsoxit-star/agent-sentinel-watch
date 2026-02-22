@@ -26,7 +26,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <div className="container flex items-center justify-between h-14 px-4">
           <div className="flex items-center gap-3">
             <Activity className="h-5 w-5 text-primary" />
-            <span className="font-semibold text-sm tracking-wide">AAIDC</span>
+            <span className="font-semibold text-sm tracking-wide">SOXIT</span>
             <span className="text-xs text-muted-foreground hidden sm:inline">Agentic AI Incident Detection</span>
           </div>
           <nav className="flex items-center gap-1">
