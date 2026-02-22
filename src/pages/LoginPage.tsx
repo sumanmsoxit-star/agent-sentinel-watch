@@ -29,7 +29,7 @@ export default function LoginPage() {
           <div className="inline-flex items-center justify-center h-12 w-12 rounded-lg bg-primary/10 glow-primary mb-2">
             <Activity className="h-6 w-6 text-primary" />
           </div>
-          <h1 className="text-xl font-semibold tracking-tight">AAIDC</h1>
+          <h1 className="text-xl font-semibold tracking-tight">SOXIT</h1>
           <p className="text-xs text-muted-foreground">Agentic AI Incident Detection & Correction</p>
         </div>
 
