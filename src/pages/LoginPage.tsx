@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Activity, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import soxitLogo from '@/assets/soxit-logo.png';
 import { setUser } from '@/lib/store';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -26,8 +27,8 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-sm space-y-8">
         <div className="text-center space-y-2">
-          <div className="inline-flex items-center justify-center h-12 w-12 rounded-lg bg-primary/10 glow-primary mb-2">
-            <Activity className="h-6 w-6 text-primary" />
+          <div className="inline-flex items-center justify-center h-16 w-16 rounded-lg mb-2">
+            <img src={soxitLogo} alt="SOXIT Logo" className="h-16 w-16 object-contain" />
           </div>
           <h1 className="text-xl font-semibold tracking-tight">SOXIT</h1>
           <p className="text-xs text-muted-foreground">Agentic AI Incident Detection & Correction</p>

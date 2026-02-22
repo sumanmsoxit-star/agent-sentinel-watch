@@ -1,5 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Activity, Terminal, BarChart3, Database, BookOpen, LogOut, History } from 'lucide-react';
+import { Terminal, BarChart3, Database, BookOpen, LogOut, History } from 'lucide-react';
+import soxitLogo from '@/assets/soxit-logo.png';
 import { getUser, setUser } from '@/lib/store';
 
 const navItems = [
@@ -25,7 +26,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <header className="border-b border-border bg-card">
         <div className="container flex items-center justify-between h-14 px-4">
           <div className="flex items-center gap-3">
-            <Activity className="h-5 w-5 text-primary" />
+            <img src={soxitLogo} alt="SOXIT Logo" className="h-7 w-7 object-contain" />
             <span className="font-semibold text-sm tracking-wide">SOXIT</span>
             <span className="text-xs text-muted-foreground hidden sm:inline">Agentic AI Incident Detection</span>
           </div>
